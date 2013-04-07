@@ -6,10 +6,15 @@ class Dizzy < Thor
   desc 'start','setups dizzy in current folder'
   method_option :repo, :required => true
   method_option :spec, :required => true
+  method_option :name, :required => true
   def start
+
+    config = {}
+    config['name'] = options[:name]
 
     Dir.mkdir('.dizzy') if (!Dir.exist?('.dizzy'))
     File.open(".gitignore", 'a+') { |file| file.write '.dizzy' }
+    File.open(".dizzy/.config", 'w+') { |file| file.write config.to_yaml }
 
     Dir.chdir '.dizzy' do
       if (!Dir.exist?('.git'))
@@ -49,16 +54,19 @@ class Dizzy < Thor
       FileUtils.cp_r dir, ".dizzy/resources/#{dir}"
     end
 
+    settings_file = File.read ".dizzy/.config"
+    config = YAML::load(File.read(".dizzy/.config")) if (File.exist?(".dizzy/.config"))
+
     FileUtils.cp "#{ROOT}/files/Resources.h", '.dizzy/classes/Resources.h'
     FileUtils.cp "#{ROOT}/files/Resources.m", '.dizzy/classes/Resources.m'
-    FileUtils.cp "#{ROOT}/files/Resources.podspec", '.dizzy/Resources.podspec'
+    FileUtils.cp "#{ROOT}/files/Resources.podspec", ".dizzy/#{config["name"]}.podspec"
 
     Dir.chdir '.dizzy/resources' do
       Resource.new.generate
     end
 
     Dir.chdir '.dizzy' do
-      Podspec.new.generate(options[:tag])
+      Podspec.new.generate(options[:tag], config['name'])
 
       `git add -A .`
       `git commit -m #{options[:message]}`
@@ -67,7 +75,7 @@ class Dizzy < Thor
       `git tag -a #{options[:tag]} -m #{options[:message]}`
       `git push dizzy --tags`
 
-      #inace treba pushat na dizzy-a sve
+      # inace treba pushat na dizzy-a sve
       system "pod push dizzy"
     end
     if (!`git config --get remote.origin.url`.empty?)

@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "Resources"
+  s.name         = "<%= @pod_name %>"
   s.version      = "<%= @tag %>"
   s.summary      = "resources for project."
   s.description  = <<-DESC
