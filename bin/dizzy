@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+ROOT = File.join(File.dirname(File.expand_path(__FILE__)), '..')
+$:.unshift File.join(ROOT, 'lib')
+
+require "rubygems"
+require "bundler/setup"
+
+require 'thor'
+require 'fileutils'
+require 'erb'
+
+require 'dizzy'
+
+Dizzy.start
