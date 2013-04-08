@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name         = "<%= @pod_name %>"
   s.version      = "<%= @tag %>"
-  s.summary      = "resources for project."
+  s.summary      = "resources."
   s.description  = <<-DESC
-                      * Dummy desc.
+                      * Dummy description which has to be bigger than summary :).
                    DESC
   s.homepage     = "www.dummy.com"
 
