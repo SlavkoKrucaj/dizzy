@@ -49,7 +49,7 @@ class Dizzy < Thor
     Dir.mkdir('.dizzy/resources')
     Dir.mkdir('.dizzy/classes')
 
-    Dir.glob('**/*.*').each { |f| FileUtils.cp_r f, ".dizzy/resources/#{f}"}
+    Dir.glob('**/*.*').each { |f| FileUtils.cp f, ".dizzy/resources/#{f}"}
     Dir.glob('**/*/').reject { |f| /.git/.match(f) || /.dizzy/.match(f) }.each do |dir|
       FileUtils.cp_r dir, ".dizzy/resources/#{dir}"
     end
