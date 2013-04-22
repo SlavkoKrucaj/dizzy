@@ -13,7 +13,7 @@ class Dizzy < Thor
     config['name'] = options[:name]
 
     Dir.mkdir('.dizzy') if (!Dir.exist?('.dizzy'))
-    File.open(".gitignore", 'a+') { |file| file.write '.dizzy' }
+    # File.open(".gitignore", 'a+') { |file| file.write '.dizzy' }
     File.open(".dizzy/.config", 'w+') { |file| file.write config.to_yaml }
 
     Dir.chdir '.dizzy' do
@@ -94,5 +94,7 @@ class Dizzy < Thor
   desc 'clean', 'remove dizzy from current directory'
   def clean
     FileUtils.rm_r('.dizzy')
+    FileUtils.rm_r('.dizzy/.config')
   end
+
 end
