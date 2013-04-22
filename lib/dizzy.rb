@@ -97,4 +97,16 @@ class Dizzy < Thor
     FileUtils.rm_r('.dizzy/.config')
   end
 
+  desc 'preview', 'preview changes'
+  method_option :workspace
+  method_option :project
+  method_option :scheme
+  method_option :configuration
+  def preview
+    #install new pod in workspace
+    #build project
+    #open app in simulator
+  end
+
+
 end
